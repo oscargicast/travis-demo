@@ -1,6 +1,10 @@
 language: python
 python:
   - "2.7"
+env:
+  global:
+    - SECRET_KEY="6j_pvdyo#gxp$bq=wbjl)nv6rl2sjiw5mv8$8ae*9=3w41h9!i"
+    - ALLOWED_HOSTS="*"
 services: 
   - postgresql
 install:
