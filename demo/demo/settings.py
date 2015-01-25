@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -11,7 +12,7 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split()
 
 
 # Application definition
@@ -41,14 +42,18 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default='sqlite:///%s' % os.path.join(BASE_DIR, 'db.sqlite3'),
+        ),
     }
-}
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('POSTGRES_URL'),
+        ),
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
