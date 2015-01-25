@@ -8,4 +8,4 @@ services:
 before_script:
   - psql -c "create database travisdb;" -U postgres
 script:
-  - cd landing && python manage.py test
+  - cd demo && python manage.py test
